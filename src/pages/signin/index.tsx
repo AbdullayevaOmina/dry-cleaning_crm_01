@@ -26,6 +26,7 @@ const Index = () => {
         setDataToCookie("access_token", response?.data.access_token);
         setDataToCookie("start", response?.data?.created_at?.slice(0, 10));
         setDataToCookie("refresh_token", response?.data.refresh_token);
+        setDataToCookie("user-id", response?.data?.id);
         Notification({ title: "Muvaffaqiyatli yakunlandi", type: "success" });
       }
     } catch (error) {

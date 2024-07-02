@@ -26,6 +26,7 @@ export interface TableProps {
   headers: Header[];
   body: BodyItem[];
   isLoading: boolean;
+  pageName: string;
   deleteAction: (id: any) => void;
   edit: (id: any) => void;
   handleStatus?: (data: UpdateOrderStatus) => void;
@@ -39,3 +40,14 @@ export interface PaginationProps {
 export interface ProtectedRouteProps {
   element: JSX.Element;
 }
+
+// ----------------- CONFIRM MODAL ---------------
+export interface ConfirmationModalProps {
+  open: boolean;
+  message: string;
+  btnTitle: any;
+  onClose: () => void;
+  onConfirm: () => void;
+}
+
+// ----------------- CONFIRM MODAL ---------------

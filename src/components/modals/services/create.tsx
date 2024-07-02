@@ -10,40 +10,31 @@ import { CreateService } from "@services-interface";
 import useServiceStore from "../../../store/service";
 import { getDataFromCookie } from "@data-service";
 import Notification from "@notification";
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  minWidth: 450,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-};
+import { style } from "@ui";
 
 const Index = ({ open, handleClose, item }: ModalProps) => {
-  const { createData,updateData } = useServiceStore();
-  console.log(item, 'modal')
+  const { createData, updateData } = useServiceStore();
+  console.log(item, "modal");
   const initialValues: CreateService = {
     name: item.name || "",
     price: item.price || "",
   };
   const handleSubmit = async (values: CreateService) => {
-    console.log(values)
+    console.log(values);
     const payload = {
       ...values,
       price: Number(values.price),
       owner_id: getDataFromCookie("id"),
     };
-    if(!item.id){
-    const status = await createData(payload);
-    if(status === 201){
-        handleClose()
-    }else {
-        Notification({title: "Nimadir xato", type: "error"})
-    }
-    }else {
-    await updateData({...payload, id: item.id})
+    if (!item.id) {
+      const status = await createData(payload);
+      if (status === 201) {
+        handleClose();
+      } else {
+        Notification({ title: "Nimadir xato", type: "error" });
+      }
+    } else {
+      await updateData({ ...payload, id: item.id });
     }
   };
   return (

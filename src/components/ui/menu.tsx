@@ -1,32 +1,44 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 import KeyRoundedIcon from "@mui/icons-material/KeyRounded";
-import Logout from '@mui/icons-material/Logout';
-import { removeDataFromCookie } from '@data-service';
-import { useNavigate } from 'react-router-dom';
+import Logout from "@mui/icons-material/Logout";
+import { removeDataFromCookie } from "@data-service";
+import { useNavigate } from "react-router-dom";
+import { ConfirmationModal } from "@modals";
+
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const navigate = useNavigate()
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const navigate = useNavigate();
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const logout =()=>{
-    removeDataFromCookie("access_token")
-    removeDataFromCookie("refresh_token")
-    navigate("/signin")
-    window.location.reload()
-  }
+
+  const handleLogoutClick = () => {
+    setModalOpen(true);
+  };
+
+  const handleLogoutConfirm = () => {
+    removeDataFromCookie("access_token");
+    removeDataFromCookie("refresh_token");
+    removeDataFromCookie("start");
+    navigate("/signin");
+    window.location.reload();
+  };
+
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -88,13 +100,20 @@ export default function AccountMenu() {
           </ListItemIcon>
           Parolni o'zgartirish
         </MenuItem>
-        <MenuItem onClick={logout}>
+        <MenuItem onClick={handleLogoutClick}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
           Chiqish
         </MenuItem>
       </Menu>
+      <ConfirmationModal
+        open={modalOpen}
+        btnTitle="Ha"
+        message="Haqiqatan ham tizimdan chiqmoqchimisiz?"
+        onClose={() => setModalOpen(false)}
+        onConfirm={handleLogoutConfirm}
+      />
     </React.Fragment>
   );
 }

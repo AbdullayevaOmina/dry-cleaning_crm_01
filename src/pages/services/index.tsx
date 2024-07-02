@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useServiceStore } from "@store";
-import { Services } from "@modals";
+import { CreateService } from "@modals";
 import { ToastContainer } from "react-toastify";
 import { GlobalTable, GlobalPagination, GlobalSearch } from "@ui";
 import { services_headers } from "@table-headers";
-import { services } from "@service";
 
 const Index = () => {
-  const { getServicesData, servicesData, isLoading, totalCount } = useServiceStore();
+  const {
+    getServicesData,
+    servicesData,
+    isLoading,
+    totalCount,
+    updateData,
+    deleteData,
+  } = useServiceStore();
   const [modal, setModal] = useState(false);
   const [item, setItem] = useState({});
 
@@ -17,10 +23,10 @@ const Index = () => {
     page: 1,
     name: "",
   });
-  
+
   useEffect(() => {
     getServicesData(params);
-  }, [params, getServicesData]);
+  }, [params, getServicesData, updateData]);
 
   useEffect(() => {
     const paramss = new URLSearchParams(location.search);
@@ -33,7 +39,7 @@ const Index = () => {
       name: search ? search : "",
     }));
   }, [location.search]);
-  
+
   const handleClose = () => {
     setModal(false);
     setItem({});
@@ -49,7 +55,9 @@ const Index = () => {
   return (
     <>
       <ToastContainer />
-      {modal && <Services open={modal} handleClose={handleClose} item={item} />}
+      {modal && (
+        <CreateService open={modal} handleClose={handleClose} item={item} />
+      )}
       <div className="py-3 flex justify-between items-center">
         <div className="w-96">
           <GlobalSearch />
@@ -72,8 +80,9 @@ const Index = () => {
             headers={services_headers}
             body={servicesData}
             isLoading={isLoading}
-            deleteAction={services.delete_service}
-            edit={services.update_service}
+            deleteAction={deleteData}
+            edit={updateData}
+            pageName="services"
           />
           <GlobalPagination
             totalCount={totalCount}

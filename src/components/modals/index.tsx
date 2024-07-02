@@ -1,6 +1,17 @@
 import SignUpModal from "./signup";
 import ForgotPassword from "./signin";
-import Services from "./services";
+import CreateService from "./services/create";
+import UpdateService from "./services/update";
 import Orders from "./orders";
 import UpdateOrder from "./orders/update";
-export { SignUpModal, ForgotPassword, Services, Orders, UpdateOrder };
+import ConfirmationModal from "./global/ConfirmationModal";
+
+export {
+  SignUpModal,
+  ForgotPassword,
+  CreateService,
+  UpdateService,
+  Orders,
+  UpdateOrder,
+  ConfirmationModal,
+};

@@ -15,9 +15,8 @@ import Option from "@mui/joy/Option";
 import del from "../../assets/delete.svg";
 import { TableProps } from "@global-interface";
 import { useState } from "react";
-import ConfirmationModal from "../modals/global/ConfirmationModal";
+import { ConfirmationModal, UpdateService, UpdateOrder } from "@modals";
 import { toast } from "react-toastify";
-import { UpdateOrder } from "@modals";
 
 const GlobalTable = (props: TableProps) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -28,14 +27,23 @@ const GlobalTable = (props: TableProps) => {
     setSelectedId(id);
     setModalOpen(true);
   };
+
   const confirmDelete = () => {
     if (selectedId) {
-      const updatedBody = data.filter((item) => item.id !== selectedId);
-      props.deleteAction(selectedId);
-      setData(updatedBody);
-      setModalOpen(false);
-      toast.success("Item deleted successfully");
-      setSelectedId(null);
+      const status = props.deleteAction(selectedId);
+
+      if (status == 200) {
+        const updatedBody = data.filter((item) => item.id !== selectedId);
+        setData(updatedBody);
+        setModalOpen(false);
+        toast.success("Item deleted successfully");
+        setSelectedId(null);
+      } else if (status === undefined) {
+        toast.error("Xatolik! Afsus ma'lumotni ochirish mumkin emas!");
+      } else {
+        setModalOpen(false);
+        toast.error("Xatolik!");
+      }
     }
   };
 
@@ -105,7 +113,11 @@ const GlobalTable = (props: TableProps) => {
                                   alt="delete"
                                   onClick={() => handleDelete(item.id)}
                                 />
-                                <UpdateOrder propsData={item} />
+                                {props.pageName === "services" ? (
+                                  <UpdateService propsData={item} />
+                                ) : (
+                                  <UpdateOrder propsData={item} />
+                                )}
                               </div>
                             ) : header.title === "Date" ? (
                               item[header.value].slice(0, 10)
@@ -144,7 +156,8 @@ const GlobalTable = (props: TableProps) => {
           </Table>
           <ConfirmationModal
             open={modalOpen}
-            message="Are you sure you want to delete this item?"
+            btnTitle={"Ha"}
+            message="Haqiqatan ham bu elementni o'chirib tashlamoqchimisiz?"
             onClose={() => setModalOpen(false)}
             onConfirm={confirmDelete}
           />

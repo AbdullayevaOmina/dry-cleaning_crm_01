@@ -2,7 +2,7 @@ import { getDataFromCookie, setDataToCookie } from "@data-service";
 import axios from "axios";
 
 const request = axios.create({
-  baseURL: "https://app.olimjanov.uz/v1",
+  baseURL: "https://service.olimjanov.uz/v1",
 });
 
 async function refreshAccessToken() {
@@ -14,7 +14,7 @@ async function refreshAccessToken() {
     }
 
     const response = await axios.post(
-      `https://app.olimjanov.uz/v1/auth/refresh-accesstoken/${refresh_token}`
+      `https://service.olimjanov.uz/v1/auth/refresh-accesstoken/${refresh_token}`
     );
 
     const { access_token } = response.data;
@@ -26,6 +26,7 @@ async function refreshAccessToken() {
     console.log(error);
   }
 }
+
 request.interceptors.request.use((config) => {
   const access_token = getDataFromCookie("access_token");
   if (access_token) {

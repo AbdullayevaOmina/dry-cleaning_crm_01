@@ -3,29 +3,14 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
-
-interface ConfirmationModalProps {
-  open: boolean;
-  message: string;
-  onClose: () => void;
-  onConfirm: () => void;
-}
+import { ConfirmationModalProps } from "@global-interface";
+import { style } from "@ui";
+style.width = 500;
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   open,
   message,
+  btnTitle,
   onClose,
   onConfirm,
 }) => {
@@ -42,10 +27,10 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         </Typography>
         <div className="flex gap-4 w-full justify-end mt-8">
           <Button variant="contained" color="info" onClick={onClose}>
-            Cancel
+            Yo'q
           </Button>
           <Button variant="contained" color="error" onClick={onConfirm}>
-            Delete
+            {btnTitle}
           </Button>
         </div>
       </Box>

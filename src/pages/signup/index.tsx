@@ -1,38 +1,38 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { TextField, IconButton, InputAdornment, Button } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { TextField, IconButton, InputAdornment, Button } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useMask } from "@react-input/mask";
 import { useState } from "react";
 import { SignUp } from "@auth-interface";
 import { signUpValidationSchema } from "@validation";
-import {auth} from "@service";
+import { auth } from "@service";
 import { SignUpModal } from "@modals";
 import { Link } from "react-router-dom";
 const Index = () => {
-  const [showPassword,setShowPassword] = useState(false)
-  const [modal,setModal] = useState(false)
-  const [email,setEmail] = useState("")
-  const initialValues:SignUp = {
+  const [showPassword, setShowPassword] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [email, setEmail] = useState("");
+  const initialValues: SignUp = {
     full_name: "",
     email: "",
     password: "",
-    phone_number: ""
-  }
+    phone_number: "",
+  };
   const inputRef = useMask({
     mask: "+998 (__) ___-__-__",
     replacement: { _: /\d/ },
   });
-  const handleSubmit =async(values:SignUp)=>{
-    setEmail(values.email)
+  const handleSubmit = async (values: SignUp) => {
+    setEmail(values.email);
     const phone_number = values.phone_number.replace(/\D/g, "");
     const payload = { ...values, phone_number: `+${phone_number}` };
-    try{
-      const response = await auth.sign_up(payload)
-      response.status === 200 && setModal(true)
-    }catch(error){
-      console.log(error)
+    try {
+      const response = await auth.sign_up(payload);
+      response.status === 200 && setModal(true);
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
   return (
     <>
       <SignUpModal
@@ -151,6 +151,6 @@ const Index = () => {
       </div>
     </>
   );
-}
+};
 
-export default Index
+export default Index;

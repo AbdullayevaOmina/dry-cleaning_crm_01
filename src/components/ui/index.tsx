@@ -3,6 +3,7 @@ import GlobalTable from "./table";
 import GlobalPagination from "./pagination";
 import Chart from "./chart";
 import CommonlyUsedComponent from "./datapicker";
+import { style } from "./moodal-style";
 
 export {
   GlobalSearch,
@@ -10,4 +11,5 @@ export {
   GlobalPagination,
   Chart,
   CommonlyUsedComponent,
+  style,
 };

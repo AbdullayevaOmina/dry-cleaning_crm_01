@@ -8,22 +8,15 @@ import { createOrderValidationSchema } from "@validation";
 import { CreateOrder } from "@orders-interface";
 import { useOrderStore, useServiceStore } from "@store";
 import { useEffect } from "react";
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  minWidth: 450,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-};
+import { style } from "@ui";
 
-const Index = ({ open, handleClose, item }: ModalProps) => {
+const Index = ({ open, handleClose }: ModalProps) => {
   const { createData } = useOrderStore();
   const { getServicesData, servicesData } = useServiceStore();
+  const params: any = { page: 1, limit: 10 };
+
   useEffect(() => {
-    getServicesData({ page: 1, limit: 10 });
+    getServicesData(params);
   }, []);
 
   const initialValues: CreateOrder = {
@@ -35,21 +28,6 @@ const Index = ({ open, handleClose, item }: ModalProps) => {
   const handleSubmit = async (values: CreateOrder) => {
     const status = await createData(values);
     if (status === 201) handleClose();
-    // const payload = {
-    //   ...values,
-    //   price: Number(values.price),
-    //   owner_id: getDataFromCookie("id"),
-    // };
-    // if(!item.id){
-    // const status = await createData(payload);
-    // if(status === 201){
-    //     handleClose()
-    // }else {
-    //     Notification({title: "Nimadir xato", type: "error"})
-    // }
-    // }else {
-    // await updateData({...payload, id: item.id})
-    // }
   };
   return (
     <Modal
@@ -66,7 +44,7 @@ const Index = ({ open, handleClose, item }: ModalProps) => {
           variant="h6"
           component="h2"
         >
-          Buyurtmalar
+          Buyurtmala Qos'hish
         </Typography>
         <Formik
           initialValues={initialValues}

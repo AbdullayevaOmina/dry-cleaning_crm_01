@@ -11,6 +11,15 @@ export interface CreateService {
 export interface UpdateService extends CreateService {
   id: string;
 }
+
+export interface initialValues {
+  name: string;
+  price: number | string;
+}
+export interface postData extends initialValues {
+  id: string;
+}
+
 export interface ServiceStore {
   servicesData: any[];
   isLoading: boolean;
